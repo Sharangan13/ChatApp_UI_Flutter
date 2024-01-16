@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/tabs/call.dart';
 import 'package:whatsapp/tabs/chat.dart';
+import 'package:whatsapp/tabs/community.dart';
 import 'package:whatsapp/tabs/status.dart';
 
 void main() => runApp(MaterialApp(
@@ -24,7 +25,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this, initialIndex: 0)
+    _tabController = new TabController(length: 4, vsync: this, initialIndex: 1)
       ..addListener(() {
         setState(() {});
       });
@@ -44,7 +45,10 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
           bottom: TabBar(
             indicatorColor: Colors.white,
             controller: _tabController,
-            tabs: <Widget>[
+            tabs: const <Widget>[
+              Tab(
+                icon: Icon(Icons.groups_3_outlined),
+              ),
               Tab(
                 text: "Chat",
               ),
@@ -57,34 +61,56 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             ],
           ),
         ),
-        body: new TabBarView(
+        body: TabBarView(
             controller: _tabController,
-            children: <Widget>[new Chat(), new Status(), new Calls()]),
+            children: <Widget>[Community(), Chat(), Status(), Calls()]),
         floatingActionButton: _tabController.index == 0
-            ? FloatingActionButton(
-                onPressed: () {},
-                child: Icon(
-                  Icons.message,
-                  color: Colors.white,
-                ),
-                backgroundColor: Colors.teal,
-              )
+            ? null
             : _tabController.index == 1
                 ? FloatingActionButton(
                     onPressed: () {},
                     child: Icon(
-                      Icons.edit,
+                      Icons.chat,
                       color: Colors.white,
                     ),
                     backgroundColor: Colors.teal,
                   )
-                : FloatingActionButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.call,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: Colors.teal,
-                  ));
+                : _tabController.index == 2
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 47,
+                            width: 47,
+                            child: FloatingActionButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.teal,
+                              ),
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FloatingActionButton(
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                            ),
+                            backgroundColor: Colors.teal,
+                          ),
+                        ],
+                      )
+                    : FloatingActionButton(
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.call,
+                          color: Colors.white,
+                        ),
+                        backgroundColor: Colors.teal,
+                      ));
   }
 }
